@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class HorseDataForm extends javax.swing.JFrame {
 
@@ -146,11 +147,36 @@ public class HorseDataForm extends javax.swing.JFrame {
         dataFile=dir+file;
         try {
             buff = new BufferedReader(new FileReader(dataFile));
-            
+            ArrayList horseRunner = new ArrayList();
+            horseRunner.add(new ArrayList());
+            int i=0;
             while (null !=(line=buff.readLine())){
+                if (i>0)
+                    horseRunner.add(new ArrayList());
                 String[] horse = line.split(delimiter);
-                details.append(horse[0]+", "+horse[1]+", "+horse[2]+", "+horse[3]+", "+horse[4]+"\n");
+                ((ArrayList)horseRunner.get(i)).add(horse[0]);
+                ((ArrayList)horseRunner.get(i)).add(horse[1]);
+                ((ArrayList)horseRunner.get(i)).add(horse[2]);
+                ((ArrayList)horseRunner.get(i)).add(horse[3]);
+                ((ArrayList)horseRunner.get(i)).add(horse[4]);
+                ((ArrayList)horseRunner.get(i)).add(horse[5]);
+                ((ArrayList)horseRunner.get(i)).add(horse[6]);
+                ((ArrayList)horseRunner.get(i)).add(horse[7]);
+                ((ArrayList)horseRunner.get(i)).add(horse[8]);
+                i++;
             }
+            //details.append(horse[0]+", "+horse[1]+", "+horse[2]+", "+horse[3]+", "+horse[4]+", "+horse[5]+", "+horse[6]+", "+horse[7]+", "+horse[8]+"\n");
+            ArrayList runner;
+            for (int row=0; row<horseRunner.size(); row++)
+                for (int col=0; col<((ArrayList)horseRunner.get(row)).size(); col++)
+                {
+                    runner = (ArrayList)horseRunner.get(row);
+                    if (col == (((ArrayList)horseRunner.get(row)).size()-1))
+                        details.append((String)(runner.get(col))+"\n");
+                    else
+                        details.append((String)(runner.get(col))+", ");
+                }
+                //\details.append("\n");
         }
         catch(FileNotFoundException fnfe){
             fnfe.printStackTrace();
