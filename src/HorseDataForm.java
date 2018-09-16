@@ -168,15 +168,50 @@ public class HorseDataForm extends javax.swing.JFrame {
             //details.append(horse[0]+", "+horse[1]+", "+horse[2]+", "+horse[3]+", "+horse[4]+", "+horse[5]+", "+horse[6]+", "+horse[7]+", "+horse[8]+"\n");
             ArrayList runner;
             for (int row=0; row<horseRunner.size(); row++)
+            {
                 for (int col=0; col<((ArrayList)horseRunner.get(row)).size(); col++)
                 {
                     runner = (ArrayList)horseRunner.get(row);
                     if (col == (((ArrayList)horseRunner.get(row)).size()-1))
                         details.append((String)(runner.get(col))+"\n");
                     else
-                        details.append((String)(runner.get(col))+", ");
+                        details.append((String)(runner.get(col))+"   ¦   ");
                 }
+            }
+            details.append("-----------------------------------------------");
+            details.append(" \n");
+            horseRunner.remove(0);
                 //\details.append("\n");
+            while (horseRunner.size()>0)
+            {
+                int maxIndex=0;
+                int max = 0;
+                
+                for (int index=0; index<horseRunner.size(); index++)
+                {
+                    if (index==0)
+                    {
+                        max=Integer.parseInt((String)(((ArrayList)(horseRunner.get(index))).get(7)));
+                    }
+                    else //this is not the first row
+                    {
+                        if (Integer.parseInt((String)(((ArrayList)(horseRunner.get(index))).get(7)))>max)
+                        {
+                            max=Integer.parseInt((String)(((ArrayList)(horseRunner.get(index))).get(7)));
+                            //max = (Integer)((ArrayList)(horseRunner.get(index))).get(8);
+                            maxIndex = index;
+                        }
+                    }
+                }
+                runner=(ArrayList)(horseRunner.get(maxIndex));
+                for (int data=0; data < runner.size(); data++)
+                {
+                    details.append((String)(runner.get(data)));
+                    details.append("   ¦   ");
+                }
+                details.append("\n");
+                horseRunner.remove(maxIndex);
+            }
         }
         catch(FileNotFoundException fnfe){
             fnfe.printStackTrace();
