@@ -148,21 +148,71 @@ public class HorseDataForm extends javax.swing.JFrame {
         try {
             buff = new BufferedReader(new FileReader(dataFile));
             ArrayList horseRunner = new ArrayList();
+            ArrayList horseRunner2= new ArrayList();
+            ArrayList horseRunner3= new ArrayList();
+            
             horseRunner.add(new ArrayList());
+            horseRunner2.add(new ArrayList());
+            horseRunner3.add(new ArrayList());
+            
             int i=0;
             while (null !=(line=buff.readLine())){
                 if (i>0)
+                {
                     horseRunner.add(new ArrayList());
+                    horseRunner2.add(new ArrayList());
+                    horseRunner3.add(new ArrayList());
+                }
                 String[] horse = line.split(delimiter);
+                
                 ((ArrayList)horseRunner.get(i)).add(horse[0]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[0]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[0]);
                 ((ArrayList)horseRunner.get(i)).add(horse[1]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[1]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[1]);
                 ((ArrayList)horseRunner.get(i)).add(horse[2]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[2]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[2]);
                 ((ArrayList)horseRunner.get(i)).add(horse[3]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[3]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[3]);
                 ((ArrayList)horseRunner.get(i)).add(horse[4]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[4]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[4]);
                 ((ArrayList)horseRunner.get(i)).add(horse[5]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[5]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[5]);
                 ((ArrayList)horseRunner.get(i)).add(horse[6]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[6]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[6]);
                 ((ArrayList)horseRunner.get(i)).add(horse[7]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[7]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[7]);
                 ((ArrayList)horseRunner.get(i)).add(horse[8]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[8]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[8]);
+                ((ArrayList)horseRunner.get(i)).add(horse[9]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[9]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[9]);
+                ((ArrayList)horseRunner.get(i)).add(horse[10]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[10]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[10]);
+                ((ArrayList)horseRunner.get(i)).add(horse[11]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[11]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[11]);
+                ((ArrayList)horseRunner.get(i)).add(horse[12]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[12]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[12]);
+                ((ArrayList)horseRunner.get(i)).add(horse[13]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[13]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[13]);
+                ((ArrayList)horseRunner.get(i)).add(horse[14]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[14]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[14]);
+                ((ArrayList)horseRunner.get(i)).add(horse[15]);
+                ((ArrayList)horseRunner2.get(i)).add(horse[15]);
+                ((ArrayList)horseRunner3.get(i)).add(horse[15]);
                 i++;
             }
             //details.append(horse[0]+", "+horse[1]+", "+horse[2]+", "+horse[3]+", "+horse[4]+", "+horse[5]+", "+horse[6]+", "+horse[7]+", "+horse[8]+"\n");
@@ -178,7 +228,7 @@ public class HorseDataForm extends javax.swing.JFrame {
                         details.append((String)(runner.get(col))+"   ¦   ");
                 }
             }
-            details.append("-----------------------------------------------");
+            details.append("\n\n ------    Highest RPR table    -------------");
             details.append(" \n");
             horseRunner.remove(0);
                 //\details.append("\n");
@@ -212,6 +262,8 @@ public class HorseDataForm extends javax.swing.JFrame {
                 details.append("\n");
                 horseRunner.remove(maxIndex);
             }
+            horseRunner2.remove(0);
+            rankCDcol(horseRunner2);
         }
         catch(FileNotFoundException fnfe){
             fnfe.printStackTrace();
@@ -225,6 +277,37 @@ public class HorseDataForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_fileNameActionPerformed
 
+    private void rankCDcol(ArrayList currentTable)
+    {
+        int C,D;
+        ArrayList currRun;
+        details.append("\n");
+        details.append("-----  Highest ranking CD table ----\n");
+        while (currentTable.size()>0)
+        { 
+            int maxCD = 0;
+            int maxCDrow = 0;
+
+            for (int row=0;row<currentTable.size();row++)
+            {
+                C=Integer.parseInt((String)(((ArrayList)(currentTable.get(row))).get(8)));
+                D=Integer.parseInt((String)(((ArrayList)(currentTable.get(row))).get(9)));
+                if (C+D > maxCD)
+                {
+                    maxCD = C+D;
+                    maxCDrow = row;
+                }
+            }
+            currRun = (ArrayList)(currentTable.get(maxCDrow));
+            for (int col=0; col<currRun.size(); col++)
+            {
+                details.append((String)(currRun.get(col)));
+                details.append("   ¦   ");
+            }
+            details.append("\n");
+            currentTable.remove(maxCDrow);
+        }
+    }
     /**
      * Removed arg param comment from here
      */
