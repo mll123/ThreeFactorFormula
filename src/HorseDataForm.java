@@ -150,10 +150,12 @@ public class HorseDataForm extends javax.swing.JFrame {
             ArrayList horseRunner = new ArrayList();
             ArrayList horseRunner2= new ArrayList();
             ArrayList horseRunner3= new ArrayList();
+            ArrayList horseRunner4= new ArrayList();
             
             horseRunner.add(new ArrayList());
             horseRunner2.add(new ArrayList());
             horseRunner3.add(new ArrayList());
+            horseRunner4.add(new ArrayList());
             
             int i=0;
             while (null !=(line=buff.readLine())){
@@ -162,57 +164,74 @@ public class HorseDataForm extends javax.swing.JFrame {
                     horseRunner.add(new ArrayList());
                     horseRunner2.add(new ArrayList());
                     horseRunner3.add(new ArrayList());
+                    horseRunner4.add(new ArrayList());
                 }
                 String[] horse = line.split(delimiter);
                 
                 ((ArrayList)horseRunner.get(i)).add(horse[0]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[0]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[0]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[0]);
                 ((ArrayList)horseRunner.get(i)).add(horse[1]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[1]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[1]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[1]);
                 ((ArrayList)horseRunner.get(i)).add(horse[2]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[2]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[2]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[2]);
                 ((ArrayList)horseRunner.get(i)).add(horse[3]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[3]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[3]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[3]);
                 ((ArrayList)horseRunner.get(i)).add(horse[4]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[4]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[4]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[4]);
                 ((ArrayList)horseRunner.get(i)).add(horse[5]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[5]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[5]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[5]);
                 ((ArrayList)horseRunner.get(i)).add(horse[6]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[6]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[6]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[6]);
                 ((ArrayList)horseRunner.get(i)).add(horse[7]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[7]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[7]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[7]);
                 ((ArrayList)horseRunner.get(i)).add(horse[8]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[8]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[8]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[8]);
                 ((ArrayList)horseRunner.get(i)).add(horse[9]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[9]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[9]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[9]);
                 ((ArrayList)horseRunner.get(i)).add(horse[10]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[10]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[10]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[10]);
                 ((ArrayList)horseRunner.get(i)).add(horse[11]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[11]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[11]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[11]);
                 ((ArrayList)horseRunner.get(i)).add(horse[12]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[12]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[12]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[12]);
                 ((ArrayList)horseRunner.get(i)).add(horse[13]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[13]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[13]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[13]);
                 ((ArrayList)horseRunner.get(i)).add(horse[14]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[14]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[14]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[14]);
                 ((ArrayList)horseRunner.get(i)).add(horse[15]);
                 ((ArrayList)horseRunner2.get(i)).add(horse[15]);
                 ((ArrayList)horseRunner3.get(i)).add(horse[15]);
+                ((ArrayList)horseRunner4.get(i)).add(horse[15]);
                 i++;
             }
             //details.append(horse[0]+", "+horse[1]+", "+horse[2]+", "+horse[3]+", "+horse[4]+", "+horse[5]+", "+horse[6]+", "+horse[7]+", "+horse[8]+"\n");
@@ -264,6 +283,10 @@ public class HorseDataForm extends javax.swing.JFrame {
             }
             horseRunner2.remove(0);
             rankCDcol(horseRunner2);
+            horseRunner3.remove(0);
+            rankPastPerf(horseRunner3);
+            horseRunner4.remove(0);
+            rankAge(horseRunner4);
         }
         catch(FileNotFoundException fnfe){
             fnfe.printStackTrace();
@@ -308,6 +331,77 @@ public class HorseDataForm extends javax.swing.JFrame {
             currentTable.remove(maxCDrow);
         }
     }
+    
+    private void rankPastPerf(ArrayList currTable)
+    {
+        int L1,L2,L3,L4,L5,L6;
+        ArrayList minSumLHorse;
+        int sum,minSumL,minSumLRow;
+        details.append("\n");
+        details.append("-------------Highest Ranking Past Performance-----------\n");
+        while(currTable.size()>0)
+        {
+            minSumL=60;
+            minSumLRow=0;
+            sum=0;
+            
+            for (int row=0; row<currTable.size(); row++)
+            {
+                L1=Integer.parseInt((String)((ArrayList)(currTable.get(row))).get(15));
+                L2=Integer.parseInt((String)((ArrayList)(currTable.get(row))).get(14));
+                L3=Integer.parseInt((String)((ArrayList)(currTable.get(row))).get(13));  
+                L4=Integer.parseInt((String)((ArrayList)(currTable.get(row))).get(12));
+                L5=Integer.parseInt((String)((ArrayList)(currTable.get(row))).get(11));
+                L6=Integer.parseInt((String)((ArrayList)(currTable.get(row))).get(10));
+                sum=L1+L2+L3+L4+L5+L6;
+                if(sum < minSumL)
+                {
+                   minSumL=sum;
+                   minSumLRow=row;
+                }
+            }
+            minSumLHorse=(ArrayList)(currTable.get(minSumLRow));
+            for(int col=0; col<minSumLHorse.size(); col++)
+            {
+                details.append((String)minSumLHorse.get(col));
+                details.append("    ¦   ");
+            }
+            details.append("\n");
+            currTable.remove(minSumLRow);
+        }
+    }
+    
+    private void rankAge(ArrayList ct)
+    {
+        int minAge, minAgeRowNr; 
+        ArrayList minAgeHorse;
+        details.append("\n");
+        details.append("----------Horse Age Ranking (Youngest first)------------\n");
+        
+        while(ct.size()>0)
+        {
+            minAge=7;
+            minAgeRowNr=0;
+            
+            for (int row=0; row<ct.size();row++)
+            {
+                if (Integer.parseInt((String)(((ArrayList)(ct.get(row))).get(2)))<minAge)
+                {
+                    minAge=Integer.parseInt((String)(((ArrayList)(ct.get(row))).get(2)));
+                    minAgeRowNr=row;
+                }
+            }
+            minAgeHorse = (ArrayList)(ct.get(minAgeRowNr));
+            for (int col=0; col<minAgeHorse.size(); col++)
+            {
+                details.append((String)minAgeHorse.get(col));
+                details.append("    ¦   ");
+            }
+            details.append("\n");
+            ct.remove(minAgeRowNr);
+        }
+    }
+    
     /**
      * Removed arg param comment from here
      */
