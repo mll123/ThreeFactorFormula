@@ -508,15 +508,15 @@ public class HorseDataForm extends javax.swing.JFrame {
                     maxOR=Integer.parseInt((String)(((ArrayList)(cTable.get(row))).get(3)));
                     maxORIndex=row;
                 }
-                maxORHorse=(ArrayList)(cTable.get(maxORIndex));
-                for (int data=0; data < maxORHorse.size(); data++)
-                {
-                    details.append((String)(maxORHorse.get(data)));
-                    details.append("   ¦   ");
-                }
-                details.append("\n");
-                cTable.remove(maxORIndex);
             }
+            maxORHorse=(ArrayList)(cTable.get(maxORIndex));
+            for (int data=0; data < maxORHorse.size(); data++)
+            {
+                details.append((String)(maxORHorse.get(data)));
+                details.append("   ¦   ");
+            }
+            details.append("\n");
+            cTable.remove(maxORIndex);
         }
     }
     
