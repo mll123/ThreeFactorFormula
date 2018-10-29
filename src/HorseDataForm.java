@@ -25,6 +25,8 @@ public class HorseDataForm extends javax.swing.JFrame {
     private  String dir;
     private  String line;
     private  String delimiter;
+    //Create the analysis table for analysing the final result
+    private  ArrayList AnalTable = new ArrayList(); 
     
     private void initVariables() {
         buff = null;
@@ -287,6 +289,9 @@ public class HorseDataForm extends javax.swing.JFrame {
                 ((ArrayList)horseRunner6.get(i)).add(horse[15]);
                 i++;
             }
+            
+            
+            
             //details.append(horse[0]+", "+horse[1]+", "+horse[2]+", "+horse[3]+", "+horse[4]+", "+horse[5]+", "+horse[6]+", "+horse[7]+", "+horse[8]+"\n");
             ArrayList runner;
             for (int row=0; row<horseRunner.size(); row++)
@@ -304,6 +309,9 @@ public class HorseDataForm extends javax.swing.JFrame {
             details.append(" \n");
             horseRunner.remove(0);
                 //\details.append("\n");
+            int no=0, nr=0;
+            int anaInd;
+            int prev_max=0;
             while (horseRunner.size()>0)
             {
                 int maxIndex=0;
@@ -325,9 +333,24 @@ public class HorseDataForm extends javax.swing.JFrame {
                         }
                     }
                 }
+                anaInd=nr;
+                if (max!=prev_max)
+                {
+                    System.out.println("max is "+Integer.toString(max)+" previous max is "+Integer.toString(prev_max));
+                    no++;
+                    prev_max=max;
+                }
+                nr++;
                 runner=(ArrayList)(horseRunner.get(maxIndex));
+                
+                AnalTable.add(new ArrayList());
+                ((ArrayList)AnalTable.get(anaInd)).add((String)runner.get(1));
+                ((ArrayList)AnalTable.get(anaInd)).add("    "+Integer.toString(no));
+                
                 for (int data=0; data < runner.size(); data++)
                 {
+                    if (data==0)
+                        details.append(Integer.toString(no)+"   ");
                     details.append((String)(runner.get(data)));
                     details.append("   ¦   ");
                 }
@@ -344,6 +367,19 @@ public class HorseDataForm extends javax.swing.JFrame {
             rankWt(horseRunner5);
             horseRunner6.remove(0);
             rankOR(horseRunner6);
+            
+            details.append("\n\n ---------- Analysis ---------------\n");
+            String horseDetails;
+            for (int id=0; id<AnalTable.size();id++)
+            {
+                for (int data=0; data<((ArrayList)AnalTable.get(id)).size(); data++)
+                {
+                    horseDetails = (String)(((ArrayList)(AnalTable.get(id))).get(data));
+                    details.append(horseDetails);
+                }
+                details.append("\n");
+            }
+                
         }
         catch(FileNotFoundException fnfe){
             fnfe.printStackTrace();
@@ -363,6 +399,9 @@ public class HorseDataForm extends javax.swing.JFrame {
         ArrayList currRun;
         details.append("\n");
         details.append("-----  Highest ranking CD table ----\n");
+        int no=0;
+
+        String AnalTableEntry;
         while (currentTable.size()>0)
         { 
             int maxCD = 0;
@@ -378,9 +417,23 @@ public class HorseDataForm extends javax.swing.JFrame {
                     maxCDrow = row;
                 }
             }
+
+            no++;
             currRun = (ArrayList)(currentTable.get(maxCDrow));
+            for (int i=0; i<AnalTable.size();i++)
+            {
+                AnalTableEntry=(String)(((ArrayList)AnalTable.get(i)).get(0));
+                if (AnalTableEntry.equals((String)(currRun.get(1))))
+                {
+                    System.out.println(AnalTableEntry+" from AnalTable is equal to "+(String)(currRun.get(1))+" from CD table");
+                    ((ArrayList)AnalTable.get(i)).add("    "+Integer.toString(no));
+                }
+            }
+            
             for (int col=0; col<currRun.size(); col++)
             {
+                if (col==0)
+                    details.append(Integer.toString(no)+"    ");
                 details.append((String)(currRun.get(col)));
                 details.append("   ¦   ");
             }
@@ -396,6 +449,9 @@ public class HorseDataForm extends javax.swing.JFrame {
         int sum,minSumL,minSumLRow;
         details.append("\n");
         details.append("-------------Highest Ranking Past Performance-----------\n");
+        int no=0;
+        String AnalTableEntry;
+        
         while(currTable.size()>0)
         {
             minSumL=60;
@@ -417,9 +473,20 @@ public class HorseDataForm extends javax.swing.JFrame {
                    minSumLRow=row;
                 }
             }
+            no++;
             minSumLHorse=(ArrayList)(currTable.get(minSumLRow));
+            
+            for (int i=0; i<AnalTable.size(); i++)
+            {
+                AnalTableEntry=(String)(((ArrayList)AnalTable.get(i)).get(0));
+                if (AnalTableEntry.equals((String)(minSumLHorse).get(1)))
+                    ((ArrayList)AnalTable.get(i)).add("    "+Integer.toString(no));
+            }
+            
             for(int col=0; col<minSumLHorse.size(); col++)
             {
+                if (col==0)
+                    details.append(Integer.toString(no)+"     ");
                 details.append((String)minSumLHorse.get(col));
                 details.append("    ¦   ");
             }
@@ -434,6 +501,8 @@ public class HorseDataForm extends javax.swing.JFrame {
         ArrayList minAgeHorse;
         details.append("\n");
         details.append("----------Horse Age Ranking (Youngest first)------------\n");
+        int no=0;
+        String AnalTableEntry;
         
         while(ct.size()>0)
         {
@@ -448,9 +517,19 @@ public class HorseDataForm extends javax.swing.JFrame {
                     minAgeRowNr=row;
                 }
             }
+            no++;
             minAgeHorse = (ArrayList)(ct.get(minAgeRowNr));
+            
+            for (int i=0; i<AnalTable.size();i++)
+            {
+                AnalTableEntry=(String)(((ArrayList)AnalTable.get(i)).get(0));
+                if (AnalTableEntry.equals((String)(minAgeHorse.get(1))))
+                    ((ArrayList)AnalTable.get(i)).add("       "+Integer.toString(no));
+            }
             for (int col=0; col<minAgeHorse.size(); col++)
             {
+                if (col==0)
+                    details.append(Integer.toString(no)+"     ");
                 details.append((String)minAgeHorse.get(col));
                 details.append("    ¦   ");
             }
@@ -465,6 +544,8 @@ public class HorseDataForm extends javax.swing.JFrame {
         int minWtIndex;
         ArrayList minWtHorse;
         details.append("\n\n-----------Rank Handicap weight---------\n");
+        int no=0;
+        String AnalTableEntry;
         
         while(cTable.size()>0)
         {
@@ -479,9 +560,20 @@ public class HorseDataForm extends javax.swing.JFrame {
                     minWtIndex=row;
                 }
             }
+            no++;
             minWtHorse=(ArrayList)(cTable.get(minWtIndex));
+            
+            for (int i=0; i<AnalTable.size(); i++)
+            {
+                AnalTableEntry = (String)(((ArrayList)AnalTable.get(i)).get(0));
+                if (AnalTableEntry.equals((String)(minWtHorse).get(1)))
+                    ((ArrayList)AnalTable.get(i)).add("       "+Integer.toString(no));
+            }
+            
             for (int col=0;col<minWtHorse.size();col++)
             {
+                if (col==0)
+                    details.append(Integer.toString(no)+"     ");
                 details.append((String)(minWtHorse.get(col)));
                 details.append("     ¦     ");
             }
@@ -495,6 +587,8 @@ public class HorseDataForm extends javax.swing.JFrame {
         int maxOR, maxORIndex;
         ArrayList maxORHorse;
         details.append("\n\n-------------OR Ranking-------------------\n");
+        int no=0;
+        String AnalTableEntry;
         
         while(cTable.size()>0)
         {
@@ -509,9 +603,20 @@ public class HorseDataForm extends javax.swing.JFrame {
                     maxORIndex=row;
                 }
             }
+            no++;
             maxORHorse=(ArrayList)(cTable.get(maxORIndex));
+            
+            for (int i=0; i<AnalTable.size(); i++)
+            {
+                AnalTableEntry=(String)(((ArrayList)AnalTable.get(i)).get(0));
+                if (AnalTableEntry.equals((String)(maxORHorse).get(1)))
+                    ((ArrayList)AnalTable.get(i)).add("       "+Integer.toString(no));
+            }
+            
             for (int data=0; data < maxORHorse.size(); data++)
             {
+                if (data==0)
+                    details.append(Integer.toString(no)+"     ");
                 details.append((String)(maxORHorse.get(data)));
                 details.append("   ¦   ");
             }
