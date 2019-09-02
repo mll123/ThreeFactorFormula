@@ -32,7 +32,7 @@ public class HorseDataForm extends javax.swing.JFrame {
         buff = null;
         //dataFile = "Data.csv";
         
-        dir="C:/Users/Net57-35/HorseRace/";
+        dir="C:/Users/Mike/HorseRace/";
         dataFile="noFile";
         line = "";
         delimiter = ",";
@@ -307,7 +307,7 @@ public class HorseDataForm extends javax.swing.JFrame {
             }
             details.append("\n\n ------    Highest RPR table    -------------");
             details.append(" \n");
-            horseRunner.remove(0);
+            horseRunner.remove(0); //Removes the first row containing headers
                 //\details.append("\n");
             int no=0, nr=0;
             int anaInd;
@@ -332,12 +332,12 @@ public class HorseDataForm extends javax.swing.JFrame {
                             maxIndex = index;
                         }
                     }
-                }
-                anaInd=nr;
+                } //At this point you have the horse details with the highest RPR from the table
+                anaInd=nr;   //Set the analysis table row number
                 if (max!=prev_max)
                 {
                     System.out.println("max is "+Integer.toString(max)+" previous max is "+Integer.toString(prev_max));
-                    no++;
+                    no++;//This is the RPR ranking in the analysis table.
                     prev_max=max;
                 }
                 nr++;
@@ -355,18 +355,18 @@ public class HorseDataForm extends javax.swing.JFrame {
                     details.append("   ¦   ");
                 }
                 details.append("\n");
-                horseRunner.remove(maxIndex);
-            }
-            horseRunner2.remove(0);
+                horseRunner.remove(maxIndex); //Remove the current max and repeat.
+            } //While (horseRunner.size()>0)
+            horseRunner2.remove(0); //Removes the first row containing headers
             rankCDcol(horseRunner2);
-            horseRunner3.remove(0);
+            horseRunner3.remove(0); //Removes the first row containing headers
             rankPastPerf(horseRunner3);
-            horseRunner4.remove(0);
+            horseRunner4.remove(0); //Removes the first row containing headers
             rankAge(horseRunner4);
-            horseRunner5.remove(0);
-            rankWt(horseRunner5);
-            horseRunner6.remove(0);
-            rankOR(horseRunner6);
+            horseRunner5.remove(0); //Removes the first row containing headers
+            rankWt(horseRunner5); 
+            horseRunner6.remove(0); //Removes the first row containing headers
+            rankOR(horseRunner6); 
             
             details.append("\n\n ---------- Analysis ---------------\n");
             String horseDetails;
@@ -399,12 +399,13 @@ public class HorseDataForm extends javax.swing.JFrame {
         ArrayList currRun;
         details.append("\n");
         details.append("-----  Highest ranking CD table ----\n");
-        int no=0;
+        int no_cd=0;
+        int prev_maxCD = 0;
 
         String AnalTableEntry;
-        while (currentTable.size()>0)
+        while (currentTable.size()>0) //Current table is horseRunner2
         { 
-            int maxCD = 0;
+            int maxCD =0;
             int maxCDrow = 0;
 
             for (int row=0;row<currentTable.size();row++)
@@ -417,8 +418,11 @@ public class HorseDataForm extends javax.swing.JFrame {
                     maxCDrow = row;
                 }
             }
-
-            no++;
+            
+            if (maxCD != prev_maxCD){
+                no_cd++;
+                prev_maxCD = maxCD;
+            }
             currRun = (ArrayList)(currentTable.get(maxCDrow));
             for (int i=0; i<AnalTable.size();i++)
             {
@@ -426,20 +430,27 @@ public class HorseDataForm extends javax.swing.JFrame {
                 if (AnalTableEntry.equals((String)(currRun.get(1))))
                 {
                     System.out.println(AnalTableEntry+" from AnalTable is equal to "+(String)(currRun.get(1))+" from CD table");
-                    ((ArrayList)AnalTable.get(i)).add("    "+Integer.toString(no));
+                    ((ArrayList)AnalTable.get(i)).add("    "+Integer.toString(no_cd));
+                    
+                    for (int col=0; col<currRun.size(); col++)
+                    {
+                        if (col==0)
+                        {
+                            details.append(Integer.toString(no_cd)+"    ");
+                        }
+                        else
+                        {
+                            details.append((String)(currRun.get(col)));
+                            details.append("   ¦   ");
+                        }
+                    }
                 }
             }
             
-            for (int col=0; col<currRun.size(); col++)
-            {
-                if (col==0)
-                    details.append(Integer.toString(no)+"    ");
-                details.append((String)(currRun.get(col)));
-                details.append("   ¦   ");
-            }
+            
             details.append("\n");
             currentTable.remove(maxCDrow);
-        }
+        } //While horseRunner2.size() > 0
     }
     
     private void rankPastPerf(ArrayList currTable)
@@ -449,14 +460,16 @@ public class HorseDataForm extends javax.swing.JFrame {
         int sum,minSumL,minSumLRow;
         details.append("\n");
         details.append("-------------Highest Ranking Past Performance-----------\n");
-        int no=0;
+        
+        int no_perf=0;
+        int prev_minSumL=0;
         String AnalTableEntry;
         
         while(currTable.size()>0)
         {
             minSumL=60;
             minSumLRow=0;
-            sum=0;
+            //int sum=0;
             
             for (int row=0; row<currTable.size(); row++)
             {
@@ -473,20 +486,25 @@ public class HorseDataForm extends javax.swing.JFrame {
                    minSumLRow=row;
                 }
             }
-            no++;
+            if (minSumL != prev_minSumL)
+            {
+                    no_perf++;
+                    prev_minSumL=minSumL;
+            }
+            //no++;
             minSumLHorse=(ArrayList)(currTable.get(minSumLRow));
             
             for (int i=0; i<AnalTable.size(); i++)
             {
                 AnalTableEntry=(String)(((ArrayList)AnalTable.get(i)).get(0));
                 if (AnalTableEntry.equals((String)(minSumLHorse).get(1)))
-                    ((ArrayList)AnalTable.get(i)).add("    "+Integer.toString(no));
+                    ((ArrayList)AnalTable.get(i)).add("    "+Integer.toString(no_perf));
             }
             
             for(int col=0; col<minSumLHorse.size(); col++)
             {
                 if (col==0)
-                    details.append(Integer.toString(no)+"     ");
+                    details.append(Integer.toString(no_perf)+"     ");
                 details.append((String)minSumLHorse.get(col));
                 details.append("    ¦   ");
             }
@@ -501,7 +519,10 @@ public class HorseDataForm extends javax.swing.JFrame {
         ArrayList minAgeHorse;
         details.append("\n");
         details.append("----------Horse Age Ranking (Youngest first)------------\n");
-        int no=0;
+        
+        int no_age=0;
+        int prev_minAge=100;
+        
         String AnalTableEntry;
         
         while(ct.size()>0)
@@ -517,19 +538,24 @@ public class HorseDataForm extends javax.swing.JFrame {
                     minAgeRowNr=row;
                 }
             }
-            no++;
+            if (prev_minAge != minAge)
+            {
+                no_age++;
+                prev_minAge = minAge;
+            }
+            //no++;
             minAgeHorse = (ArrayList)(ct.get(minAgeRowNr));
             
             for (int i=0; i<AnalTable.size();i++)
             {
                 AnalTableEntry=(String)(((ArrayList)AnalTable.get(i)).get(0));
                 if (AnalTableEntry.equals((String)(minAgeHorse.get(1))))
-                    ((ArrayList)AnalTable.get(i)).add("       "+Integer.toString(no));
+                    ((ArrayList)AnalTable.get(i)).add("       "+Integer.toString(no_age));
             }
             for (int col=0; col<minAgeHorse.size(); col++)
             {
                 if (col==0)
-                    details.append(Integer.toString(no)+"     ");
+                    details.append(Integer.toString(no_age)+"     ");
                 details.append((String)minAgeHorse.get(col));
                 details.append("    ¦   ");
             }
@@ -544,7 +570,10 @@ public class HorseDataForm extends javax.swing.JFrame {
         int minWtIndex;
         ArrayList minWtHorse;
         details.append("\n\n-----------Rank Handicap weight---------\n");
-        int no=0;
+        
+        int no_wt=0;
+        float prev_minWt=100;
+        
         String AnalTableEntry;
         
         while(cTable.size()>0)
@@ -560,20 +589,25 @@ public class HorseDataForm extends javax.swing.JFrame {
                     minWtIndex=row;
                 }
             }
-            no++;
+            if (minWt != prev_minWt)
+            {
+                no_wt++;
+                prev_minWt = minWt;
+            }
+            
             minWtHorse=(ArrayList)(cTable.get(minWtIndex));
             
             for (int i=0; i<AnalTable.size(); i++)
             {
                 AnalTableEntry = (String)(((ArrayList)AnalTable.get(i)).get(0));
                 if (AnalTableEntry.equals((String)(minWtHorse).get(1)))
-                    ((ArrayList)AnalTable.get(i)).add("       "+Integer.toString(no));
+                    ((ArrayList)AnalTable.get(i)).add("       "+Integer.toString(no_wt));
             }
             
             for (int col=0;col<minWtHorse.size();col++)
             {
                 if (col==0)
-                    details.append(Integer.toString(no)+"     ");
+                    details.append(Integer.toString(no_wt)+"     ");
                 details.append((String)(minWtHorse.get(col)));
                 details.append("     ¦     ");
             }
@@ -587,7 +621,10 @@ public class HorseDataForm extends javax.swing.JFrame {
         int maxOR, maxORIndex;
         ArrayList maxORHorse;
         details.append("\n\n-------------OR Ranking-------------------\n");
-        int no=0;
+        
+        int no_OR=0;
+        int prev_maxOR=0;
+        
         String AnalTableEntry;
         
         while(cTable.size()>0)
@@ -603,27 +640,31 @@ public class HorseDataForm extends javax.swing.JFrame {
                     maxORIndex=row;
                 }
             }
-            no++;
+            if (maxOR != prev_maxOR)
+            {
+                no_OR++;
+                prev_maxOR=maxOR;
+            }
             maxORHorse=(ArrayList)(cTable.get(maxORIndex));
             
             for (int i=0; i<AnalTable.size(); i++)
             {
                 AnalTableEntry=(String)(((ArrayList)AnalTable.get(i)).get(0));
                 if (AnalTableEntry.equals((String)(maxORHorse).get(1)))
-                    ((ArrayList)AnalTable.get(i)).add("       "+Integer.toString(no));
+                    ((ArrayList)AnalTable.get(i)).add("       "+Integer.toString(no_OR));
             }
             
             for (int data=0; data < maxORHorse.size(); data++)
             {
                 if (data==0)
-                    details.append(Integer.toString(no)+"     ");
+                    details.append(Integer.toString(no_OR)+"     ");
                 details.append((String)(maxORHorse.get(data)));
                 details.append("   ¦   ");
             }
             details.append("\n");
             cTable.remove(maxORIndex);
-        }
-    }
+        } //While (horseRunner6)>0
+    } // rankOR(horseRunner6)
     
     /**
      * Removed arg param comment from here
