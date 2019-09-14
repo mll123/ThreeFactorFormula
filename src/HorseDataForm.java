@@ -367,6 +367,7 @@ public class HorseDataForm extends javax.swing.JFrame {
             rankWt(horseRunner5); 
             horseRunner6.remove(0); //Removes the first row containing headers
             rankOR(horseRunner6); 
+            addSumToAnalysisTable();
             
             details.append("\n\n ---------- Analysis ---------------\n");
             String horseDetails;
@@ -664,7 +665,28 @@ public class HorseDataForm extends javax.swing.JFrame {
             details.append("\n");
             cTable.remove(maxORIndex);
         } //While (horseRunner6)>0
-    } // rankOR(horseRunner6)
+    } // rankOR([horseRunner6)
+    
+    private void addSumToAnalysisTable()
+    {
+        int sum=0;
+        int d1=0;
+        String current_data,cur_data;
+        
+        for (int row=0; row<AnalTable.size();row++)
+        {
+            //sum the data in each row
+            for (int data = 1; data < 7; data++)
+            {
+                current_data =(String)(((ArrayList)AnalTable.get(row)).get(data));
+                cur_data =current_data.replaceAll("\\s+","");
+                d1 = Integer.parseInt(cur_data);
+                sum = sum+d1;
+            } //next data
+            ((ArrayList)AnalTable.get(row)).add("       "+Integer.toString(sum));
+            sum=0;
+        } //next Row
+    }
     
     /**
      * Removed arg param comment from here
